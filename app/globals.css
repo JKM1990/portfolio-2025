@@ -1,42 +1,94 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-bg-dark text-text-light;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    max-width: 100vw;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+@layer components {
+  .btn {
+    @apply inline-block bg-opacity-10 bg-accent-purple text-accent-purple px-6 py-3 
+    border border-accent-purple rounded relative overflow-hidden z-10
+    font-semibold tracking-wide text-sm transition-all duration-300
+    hover:text-text-light hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-purple/20;
+  }
+  
+  .btn::before {
+    content: '';
+    @apply absolute top-0 left-0 w-0 h-full bg-accent-purple transition-all duration-500 -z-10;
+  }
+  
+  .btn:hover::before {
+    @apply w-full;
+  }
+  
+  .section-title {
+    @apply text-lg text-accent-purple mb-10 flex items-center font-semibold;
+  }
+  
+  .section-title::after {
+    content: '';
+    @apply ml-5 h-px w-72 bg-accent-purple bg-opacity-30 block;
+  }
+  
+  .skill-item {
+    @apply flex items-center text-text-dim p-2 rounded transition-all duration-300
+    relative cursor-default hover:text-text-light hover:-translate-y-1;
+  }
+  
+  .skill-item::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full bg-accent-purple bg-opacity-10
+    rounded scale-x-0 origin-left transition-transform duration-300 -z-10;
+  }
+  
+  .skill-item:hover::before {
+    @apply scale-x-100;
+  }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Animation keyframes */
+@keyframes float {
+  0% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+  100% { transform: translateY(0) rotate(0); }
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@layer utilities {
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .animate-rotate {
+    animation: rotate 30s linear infinite;
   }
 }
