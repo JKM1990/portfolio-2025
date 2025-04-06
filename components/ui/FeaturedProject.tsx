@@ -24,9 +24,9 @@ export default function FeaturedProject({ project, isEven }: FeaturedProjectProp
       className="relative"
       variants={variants}
     >
-      <div className={`grid grid-cols-12 gap-5 ${isEven ? 'md:RTL' : ''}`}>
-        {/* Project Image */}
-        <div className="col-span-12 md:col-span-6 rounded overflow-hidden group">
+      <div className="grid grid-cols-12 gap-5">
+        {/* Project Image - Conditionally ordered based on isEven */}
+        <div className={`col-span-12 md:col-span-6 rounded overflow-hidden group ${isEven ? 'md:order-2' : 'md:order-1'}`}>
           <div className="relative h-80 bg-accent-purple rounded flex items-center justify-center">
             <span className="text-white text-xl">Project Screenshot</span>
             
@@ -36,11 +36,20 @@ export default function FeaturedProject({ project, isEven }: FeaturedProjectProp
           </div>
         </div>
         
-        {/* Project Details */}
-        <div className={`col-span-12 md:col-span-6 flex flex-col ${isEven ? 'md:items-end md:text-right' : ''}`}>
-          <p className="text-accent-purple text-sm mb-2 relative inline-block pl-5">
-            <span className="absolute left-0 top-1/2 w-4 h-px bg-accent-purple transform -translate-y-1/2"></span>
-            Featured Project
+        {/* Project Details - Conditionally ordered and aligned based on isEven */}
+        <div className={`col-span-12 md:col-span-6 flex flex-col ${isEven ? 'md:order-1 md:items-end md:text-right' : 'md:order-2'}`}>
+          <p className={`text-accent-purple text-sm mb-2 relative inline-block ${isEven ? 'pl-0 pr-5' : 'pl-5'}`}>
+            {isEven ? (
+              <>
+                Featured Project
+                <span className="absolute right-0 top-1/2 w-4 h-px bg-accent-purple transform -translate-y-1/2"></span>
+              </>
+            ) : (
+              <>
+                <span className="absolute left-0 top-1/2 w-4 h-px bg-accent-purple transform -translate-y-1/2"></span>
+                Featured Project
+              </>
+            )}
           </p>
           
           <h3 className="text-2xl font-bold mb-5">
