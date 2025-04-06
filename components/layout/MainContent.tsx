@@ -22,14 +22,15 @@ export default function MainContent({ children }: MainContentProps) {
   const [mouseY, setMouseY] = useState(0);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    setMouseX(clientX);
-    setMouseY(clientY);
+    // Use relative coordinates instead of client coordinates
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMouseX(x);
+    setMouseY(y);
   };
 
-  // Use framer-motion to create smooth spotlight effect
-  const spotlightX = useTransform(scrollYProgress, [0, 1], [0, mouseX]);
-  const spotlightY = useTransform(scrollYProgress, [0, 1], [0, mouseY]);
+  // Create spotlight effect - use mouseX and mouseY directly instead of transforming from scroll
 
   return (
     <div 
@@ -41,8 +42,8 @@ export default function MainContent({ children }: MainContentProps) {
       <motion.div 
         className="hidden lg:block absolute w-80 h-80 rounded-full bg-accent-purple bg-opacity-5 filter blur-3xl"
         style={{
-          x: spotlightX,
-          y: spotlightY,
+          left: mouseX,
+          top: mouseY,
           translateX: "-50%",
           translateY: "-50%"
         }}
