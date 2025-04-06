@@ -19,6 +19,7 @@ export default function SkillItem({ skill, index }: SkillItemProps) {
         delay: index * 0.1,
         ease: [0.215, 0.61, 0.355, 1] 
       }}
+      whileHover={{ scale: 1.05 }}
     >
       <i className={`fas ${skill.icon} text-accent-purple mr-2`}></i>
       <span>{skill.name}</span>
