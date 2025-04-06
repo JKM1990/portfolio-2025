@@ -143,7 +143,7 @@ export default function Projects() {
       >
         <h3 className="text-2xl font-semibold mb-10">Other Noteworthy Projects</h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {otherProjects.map((project, index) => (
             <ProjectCard 
               key={project.title}

@@ -12,8 +12,8 @@ interface ProjectCardProps {
 export default function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <motion.div 
-      className="bg-bg-medium rounded overflow-hidden flex flex-col h-96 border border-accent-purple border-opacity-15
-        hover:border-accent-purple transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+      className="bg-bg-medium rounded overflow-hidden flex flex-col min-h-[24rem] border border-accent-purple border-opacity-15
+        hover:border-accent-purple transition-all duration-300 hover:-translate-y-2 hover:shadow-xl lg:h-auto xl:h-96"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ 
@@ -50,11 +50,11 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           {project.title}
         </h3>
         
-        <p className="text-text-dim mb-6 flex-grow">
+        <p className="text-text-dim mb-4 flex-grow line-clamp-4 lg:line-clamp-none xl:line-clamp-4">
           {project.description}
         </p>
         
-        <div className="flex flex-wrap gap-2 mt-auto text-xs text-text-dim pb-6">
+        <div className="flex flex-wrap gap-2 mt-auto text-xs text-text-dim pb-6 min-h-[4.5rem]">
           {project.technologies.map((tech) => (
             <span 
               key={tech.name}
