@@ -28,7 +28,6 @@ export interface Skill {
     path: string;
     label: string;
     icon: string;
-    isActive: boolean;
   }
   
   export interface SocialLink {

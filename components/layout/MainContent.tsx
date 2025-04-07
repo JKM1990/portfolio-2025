@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
+import { animateScroll } from '@/utils/scroll';
 
 interface MainContentProps {
   children: ReactNode;
@@ -14,18 +15,7 @@ export default function MainContent({ children }: MainContentProps) {
   const [sections, setSections] = useState<HTMLElement[]>([]);
   const [isScrolling, setIsScrolling] = useState(false);
   
-  // Get mouse position for spotlight effect
-  const [mouseX, setMouseX] = useState(0);
-  const [mouseY, setMouseY] = useState(0);
-
-  // Handle mouse movement for spotlight effect
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setMouseX(x);
-    setMouseY(y);
-  }, []);
+  // Refs and state for managing sections
 
   // Find all sections when component mounts
   useEffect(() => {
@@ -41,37 +31,16 @@ export default function MainContent({ children }: MainContentProps) {
     setIsScrolling(true);
     setCurrentSectionIndex(index);
 
-    // Animate scroll with framer-motion principles
+    // Use shared utility for smooth scrolling
     const scrollStart = window.scrollY;
     const scrollTarget = targetSection.offsetTop;
-    const scrollDistance = scrollTarget - scrollStart;
     
-    const animationDuration = 0.5; // in seconds
-    
-    const startTime = performance.now();
-    const animateScroll = (currentTime: number) => {
-      const elapsedTime = (currentTime - startTime) / 1000; // in seconds
-      const progress = Math.min(elapsedTime / animationDuration, 1);
-      
-      // Ease out cubic function for smooth deceleration
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      
-      window.scrollTo(0, scrollStart + scrollDistance * easeOut);
-      
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll);
-      } else {
-        // This prevents hash being added to URL
-        history.pushState(null, '', window.location.pathname);
-        
-        // Reset scrolling flag after a short delay to prevent immediate triggers
-        setTimeout(() => {
-          setIsScrolling(false);
-        }, 200);
-      }
-    };
-    
-    requestAnimationFrame(animateScroll);
+    animateScroll(scrollStart, scrollTarget, () => {
+      // Reset scrolling flag after a short delay to prevent immediate triggers
+      setTimeout(() => {
+        setIsScrolling(false);
+      }, 200);
+    });
   }, [sections, isScrolling]);
 
   // Simple scroll handling
@@ -180,14 +149,22 @@ export default function MainContent({ children }: MainContentProps) {
     <div 
       ref={containerRef}
       className="ml-0 lg:ml-72 flex-1 min-h-screen relative bg-bg-dark overflow-x-hidden"
-      onMouseMove={handleMouseMove}
     >
       {/* Decorative elements */}
       <motion.div 
         className="hidden lg:block absolute w-80 h-80 rounded-full bg-accent-purple bg-opacity-5 filter blur-3xl"
+        animate={{
+          x: [0, 50, -30, 0],
+          y: [0, -30, 50, 0],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "linear"
+        }}
         style={{
-          left: mouseX,
-          top: mouseY,
+          left: "50%",
+          top: "30%",
           translateX: "-50%",
           translateY: "-50%"
         }}

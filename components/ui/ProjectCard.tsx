@@ -50,7 +50,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           {project.title}
         </h3>
         
-        <p className="text-text-dim mb-4 flex-grow line-clamp-4 lg:line-clamp-none xl:line-clamp-4">
+        <p className="text-text-dim mb-4 flex-grow line-clamp-4 lg:line-clamp-3">
           {project.description}
         </p>
         

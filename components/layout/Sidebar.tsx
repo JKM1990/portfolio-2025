@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { NavLink, SocialLink } from '@/types';
+import { animateScroll } from '@/utils/scroll';
 
 // Animation variants
 const sidebarVariants = {
@@ -18,10 +19,10 @@ const sidebarVariants = {
 };
 
 const navLinks: NavLink[] = [
-  { path: 'hero', label: 'Home', icon: 'fa-home', isActive: true },
-  { path: 'about', label: 'About', icon: 'fa-user', isActive: false },
-  { path: 'work', label: 'Projects', icon: 'fa-code', isActive: false },
-  { path: 'contact', label: 'Contact', icon: 'fa-envelope', isActive: false },
+  { path: 'hero', label: 'Home', icon: 'fa-home' },
+  { path: 'about', label: 'About', icon: 'fa-user' },
+  { path: 'work', label: 'Projects', icon: 'fa-code' },
+  { path: 'contact', label: 'Contact', icon: 'fa-envelope' },
 ];
 
 const socialLinks: SocialLink[] = [
@@ -62,34 +63,13 @@ export default function Sidebar() {
   const scrollToSection = useCallback((sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      // Using custom smooth scrolling with framer-motion
+      // Use shared utility for smooth scrolling
       const scrollStart = window.scrollY;
       const scrollTarget = section.offsetTop;
-      const scrollDistance = scrollTarget - scrollStart;
       
-      // Animate the scroll position with framer-motion
-      const animationDuration = 0.5; // Shorter duration for less delay (seconds)
-      
-      const startTime = performance.now();
-      const animateScroll = (currentTime: number) => {
-        const elapsedTime = (currentTime - startTime) / 1000; // in seconds
-        const progress = Math.min(elapsedTime / animationDuration, 1);
-        
-        // Ease out cubic function for smooth deceleration
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        
-        window.scrollTo(0, scrollStart + scrollDistance * easeOut);
-        
-        if (progress < 1) {
-          requestAnimationFrame(animateScroll);
-        } else {
-          // This prevents hash being added to URL
-          history.pushState(null, '', window.location.pathname);
-          setActiveSection(sectionId);
-        }
-      };
-      
-      requestAnimationFrame(animateScroll);
+      animateScroll(scrollStart, scrollTarget, () => {
+        setActiveSection(sectionId);
+      });
     }
   }, []);
 
