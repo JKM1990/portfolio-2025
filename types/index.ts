@@ -17,6 +17,8 @@ export interface Skill {
     technologies: Technology[];
     githubLink?: string;
     liveLink?: string;
+    createdAt?: string;
+    updatedAt?: string;
     details?: {
       problem?: string;
       solution?: string;

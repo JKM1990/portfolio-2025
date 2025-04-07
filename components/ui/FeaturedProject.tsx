@@ -10,6 +10,8 @@ interface FeaturedProjectProps {
 }
 
 export default function FeaturedProject({ project, isEven }: FeaturedProjectProps) {
+  // Removed debug logging for production
+  
   const variants = {
     hidden: { opacity: 0, y: 50 },
     visible: {

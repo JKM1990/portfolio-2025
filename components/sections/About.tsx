@@ -1,26 +1,66 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Skill } from '@/types';
 import SkillItem from '@/components/ui/SkillItem';
 
-// Sample data - In production, this would come from MongoDB
-const skills: Skill[] = [
-  { name: 'JavaScript (ES6+)', icon: 'fa-chevron-right' },
-  { name: 'React', icon: 'fa-chevron-right' },
-  { name: 'Node.js', icon: 'fa-chevron-right' },
-  { name: 'TypeScript', icon: 'fa-chevron-right' },
-  { name: 'Express', icon: 'fa-chevron-right' },
-  { name: 'MongoDB', icon: 'fa-chevron-right' },
-  { name: 'HTML & (S)CSS', icon: 'fa-chevron-right' },
-  { name: 'PHP', icon: 'fa-chevron-right' },
-  { name: 'Git/GitHub', icon: 'fa-chevron-right' }
-];
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
 
 export default function About() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+  
+  // State for skills
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+  
+  // Fetch skills from API
+  useEffect(() => {
+    async function fetchSkills(): Promise<void> {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/skills');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch skills');
+        }
+        
+        const result: ApiResponse<Skill[]> = await response.json();
+        
+        if (!result.success) {
+          throw new Error(result.message || 'Failed to fetch skills');
+        }
+        
+        setSkills(result.data);
+      } catch (err) {
+        console.error('Error loading skills:', err);
+        setError('Failed to load skills. Please try again later.');
+        
+        // Fallback to sample data if API fails
+        setSkills([
+          { name: 'JavaScript (ES6+)', icon: 'fa-js' },
+          { name: 'React', icon: 'fa-react' },
+          { name: 'Node.js', icon: 'fa-node-js' },
+          { name: 'TypeScript', icon: 'fa-code' },
+          { name: 'Express', icon: 'fa-server' },
+          { name: 'MongoDB', icon: 'fa-database' },
+          { name: 'HTML & (S)CSS', icon: 'fa-html5' },
+          { name: 'PHP', icon: 'fa-php' },
+          { name: 'Git/GitHub', icon: 'fa-git-alt' }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchSkills();
+  }, []);
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -87,11 +127,27 @@ export default function About() {
           </motion.p>
           
           <motion.div variants={itemVariants}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {skills.map((skill, index) => (
-                <SkillItem key={index} skill={skill} index={index} />
-              ))}
-            </div>
+            {loading ? (
+              <div className="flex justify-center py-6">
+                <div className="w-8 h-8 border-4 border-accent-purple border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {skills.map((skill, index) => (
+                  <SkillItem 
+                    key={skill._id || index} 
+                    skill={skill} 
+                    index={index} 
+                  />
+                ))}
+              </div>
+            )}
+            
+            {error && (
+              <p className="text-sm text-highlight mt-2">
+                {error}
+              </p>
+            )}
           </motion.div>
         </motion.div>
         
