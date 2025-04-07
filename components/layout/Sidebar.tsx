@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { NavLink, SocialLink } from '@/types';
 
@@ -19,10 +18,10 @@ const sidebarVariants = {
 };
 
 const navLinks: NavLink[] = [
-  { path: '#hero', label: 'Home', icon: 'fa-home', isActive: true },
-  { path: '#about', label: 'About', icon: 'fa-user', isActive: false },
-  { path: '#work', label: 'Projects', icon: 'fa-code', isActive: false },
-  { path: '#contact', label: 'Contact', icon: 'fa-envelope', isActive: false },
+  { path: 'hero', label: 'Home', icon: 'fa-home', isActive: true },
+  { path: 'about', label: 'About', icon: 'fa-user', isActive: false },
+  { path: 'work', label: 'Projects', icon: 'fa-code', isActive: false },
+  { path: 'contact', label: 'Contact', icon: 'fa-envelope', isActive: false },
 ];
 
 const socialLinks: SocialLink[] = [
@@ -33,7 +32,7 @@ const socialLinks: SocialLink[] = [
 ];
 
 export default function Sidebar() {
-  const [activeSection, setActiveSection] = useState('#hero');
+  const [activeSection, setActiveSection] = useState('hero');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Handle scrolling and highlight active section
@@ -47,7 +46,7 @@ export default function Sidebar() {
         const sectionHeight = section.clientHeight;
         
         if (window.scrollY >= sectionTop - sectionHeight / 3) {
-          current = `#${section.getAttribute('id') || ''}`;
+          current = section.getAttribute('id') || '';
         }
       });
       
@@ -59,6 +58,40 @@ export default function Sidebar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeSection]);
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      // Using custom smooth scrolling with framer-motion
+      const scrollStart = window.scrollY;
+      const scrollTarget = section.offsetTop;
+      const scrollDistance = scrollTarget - scrollStart;
+      
+      // Animate the scroll position with framer-motion
+      const animationDuration = 0.5; // Shorter duration for less delay (seconds)
+      
+      const startTime = performance.now();
+      const animateScroll = (currentTime: number) => {
+        const elapsedTime = (currentTime - startTime) / 1000; // in seconds
+        const progress = Math.min(elapsedTime / animationDuration, 1);
+        
+        // Ease out cubic function for smooth deceleration
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        
+        window.scrollTo(0, scrollStart + scrollDistance * easeOut);
+        
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        } else {
+          // This prevents hash being added to URL
+          history.pushState(null, '', window.location.pathname);
+          setActiveSection(sectionId);
+        }
+      };
+      
+      requestAnimationFrame(animateScroll);
+    }
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -89,24 +122,24 @@ export default function Sidebar() {
         <div className="flex flex-col">
           {/* Logo */}
           <div className="text-2xl font-bold tracking-wide mb-12 pb-2 border-b border-accent-purple inline-block">
-            PORTFOLIO
+            J.M. PORTFOLIO
           </div>
 
           {/* Navigation */}
           <nav className="flex flex-col space-y-6">
             {navLinks.map((link) => (
-              <Link 
+              <motion.button 
                 key={link.label}
-                href={link.path}
                 className={`
                   flex items-center text-base font-medium transition duration-300
-                  group relative pl-6
+                  group relative pl-6 text-left
                   ${activeSection === link.path ? 'text-text-light' : 'text-text-dim hover:text-text-light'}
                 `}
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  setActiveSection(link.path);
+                  scrollToSection(link.path);
                 }}
+                whileTap={{ scale: 0.98 }}
               >
                 <div className={`
                   absolute left-0 w-1 h-full bg-accent-purple transition-all duration-300 transform origin-left
@@ -114,7 +147,7 @@ export default function Sidebar() {
                 `} />
                 <i className={`fas ${link.icon} text-accent-purple mr-3`}></i>
                 {link.label}
-              </Link>
+              </motion.button>
             ))}
           </nav>
         </div>
@@ -123,19 +156,21 @@ export default function Sidebar() {
           {/* Social links */}
           <div className="flex space-x-5 mb-5">
             {socialLinks.map((link) => (
-              <Link 
+              <motion.a
                 key={link.platform}
                 href={link.url}
-                className="text-text-dim hover:text-accent-purple transition-all duration-300 hover:-translate-y-1"
+                className="text-text-dim hover:text-accent-purple transition-all duration-300"
                 aria-label={link.platform}
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <i className={`fab ${link.icon} text-xl`}></i>
-              </Link>
+              </motion.a>
             ))}
           </div>
           
           {/* Copyright */}
-          <p className="text-text-dim text-xs">© 2025 Your Name</p>
+          <p className="text-text-dim text-xs">© 2025 Jeffrey K. Manser</p>
         </div>
       </motion.div>
     </>

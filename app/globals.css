@@ -4,7 +4,8 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /* Removing default smooth scroll in favor of JS control */
+    scroll-behavior: auto;
   }
   
   body {
@@ -52,22 +53,39 @@
   
   .section-title::after {
     content: '';
-    @apply ml-5 h-px w-72 bg-accent-purple bg-opacity-30 block;
+    @apply ml-5 h-px bg-accent-purple bg-opacity-30 block;
+    width: 40%;
   }
   
   .skill-item {
     @apply flex items-center text-text-dim p-2 rounded transition-all duration-300
-    relative cursor-default hover:text-text-light hover:-translate-y-1;
+    relative cursor-default hover:text-text-light hover:translate-y-0 overflow-hidden;
   }
   
   .skill-item::before {
     content: '';
-    @apply absolute top-0 left-0 w-full h-full bg-accent-purple bg-opacity-10
-    rounded scale-x-0 origin-left transition-transform duration-300 -z-10;
+    @apply absolute inset-0 bg-accent-purple bg-opacity-0 rounded
+    transition-all duration-300 -z-10;
+    box-shadow: 0 0 0 0 rgba(110, 60, 231, 0);
   }
   
   .skill-item:hover::before {
-    @apply scale-x-100;
+    @apply bg-opacity-10;
+    box-shadow: 0 0 15px 2px rgba(110, 60, 231, 0.3);
+  }
+  
+  .skill-item::after {
+    content: '';
+    @apply absolute w-8 h-8 bg-accent-purple bg-opacity-30 rounded-full 
+    -z-10 blur-md opacity-0 transition-all duration-500;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  
+  .skill-item:hover::after {
+    @apply opacity-70;
+    transform: translate(-50%, -50%) scale(1.5);
   }
 }
 
