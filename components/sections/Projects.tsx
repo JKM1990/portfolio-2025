@@ -109,7 +109,12 @@ export default function Projects() {
   };
 
   return (
-    <section id="work" className="min-h-screen px-6 md:px-16 py-20" ref={ref}>
+    <section 
+      id="work" 
+      className="px-6 md:px-16 py-20" 
+      ref={ref}
+      style={{ minHeight: "120vh" }} // Force this section to be at least 20% taller than viewport
+    >
       <motion.h3 
         className="section-title"
         variants={titleVariants}
@@ -125,6 +130,7 @@ export default function Projects() {
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         className="space-y-32 mb-32"
+        id="featured-projects"
       >
         {featuredProjects.map((project, index) => (
           <FeaturedProject 
@@ -136,14 +142,10 @@ export default function Projects() {
       </motion.div>
       
       {/* Other Projects */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-        transition={{ duration: 0.6, delay: 0.5 }}
-      >
+      <div id="other-projects" className="mt-12 mb-40">
         <h3 className="text-2xl font-semibold mb-10">Other Noteworthy Projects</h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-20">
           {otherProjects.map((project, index) => (
             <ProjectCard 
               key={project.title}
@@ -152,7 +154,10 @@ export default function Projects() {
             />
           ))}
         </div>
-      </motion.div>
+      </div>
+      
+      {/* Extra space marker to ensure full scrolling of projects section */}
+      <div id="projects-end-marker" className="h-32"></div>
     </section>
   );
 }

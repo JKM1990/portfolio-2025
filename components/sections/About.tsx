@@ -70,7 +70,7 @@ export default function About() {
           animate={isInView ? "visible" : "hidden"}
         >
           <motion.p className="text-text-dim mb-5" variants={itemVariants}>
-            Hello! My name is Your Name, and I enjoy creating things that live on the internet. 
+            Hello! My name is Jeff, and I enjoy creating things that live on the internet. 
             My interest in web development started back in 2018 when I decided to try editing 
             custom Tumblr themes — turns out hacking together a custom reblog button taught me 
             a lot about HTML & CSS!

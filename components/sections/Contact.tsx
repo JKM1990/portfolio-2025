@@ -47,12 +47,13 @@ export default function Contact() {
         Get In Touch
       </motion.h3>
       
-      <motion.div
-        className="max-w-2xl mx-auto"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
+      <div className="max-w-2xl">
+        <motion.div
+          className="w-full"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
         {!showForm ? (
           <>
             <motion.h2 
@@ -88,6 +89,7 @@ export default function Contact() {
           </motion.div>
         )}
       </motion.div>
+        </div>
     </section>
   );
 }
