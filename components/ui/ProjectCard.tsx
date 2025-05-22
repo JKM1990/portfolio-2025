@@ -13,7 +13,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <motion.div 
       className="bg-bg-medium rounded overflow-hidden flex flex-col min-h-[24rem] border border-accent-purple border-opacity-15
-        hover:border-accent-purple transition-all duration-300 hover:-translate-y-2 hover:shadow-xl lg:h-auto xl:h-96"
+        hover:border-accent-purple transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_15px_3px_rgba(110,60,231,0.5)] lg:h-auto xl:h-96"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ 

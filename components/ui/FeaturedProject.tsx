@@ -44,7 +44,8 @@ export default function FeaturedProject({ project, isEven }: FeaturedProjectProp
       <div className="grid grid-cols-12 gap-5">
         {/* Project Image - Conditionally ordered based on isEven */}
         <div className={`col-span-12 md:col-span-6 rounded overflow-hidden group ${isEven ? 'md:order-2' : 'md:order-1'}`}>
-          <div className="relative h-80 bg-accent-purple rounded overflow-hidden">
+          <div className="relative h-80 bg-accent-purple rounded overflow-hidden transition-all duration-300 
+                    group-hover:shadow-[0_0_15px_3px_rgba(110,60,231,0.5)] group-hover:border-accent-purple">
             {project.imageSrc ? (
               <>
                 <img 
@@ -75,10 +76,6 @@ export default function FeaturedProject({ project, isEven }: FeaturedProjectProp
                 <span className="text-white text-xl">Project Screenshot</span>
               </div>
             )}
-            
-            {/* Overlay on hover */}
-            <div className="absolute inset-0 bg-accent-purple bg-opacity-50 opacity-0 
-              group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
         </div>
         
