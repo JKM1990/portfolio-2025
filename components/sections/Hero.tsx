@@ -50,7 +50,7 @@ export default function Hero() {
         animate="visible"
         variants={fadeInUp}
       >
-        I build things for the web.
+        I like to build things for others.
       </motion.h2>
       
       <motion.p 
@@ -63,7 +63,7 @@ export default function Hero() {
         I&apos;m a web developer who recently graduated from the NSCC Web 
         Programming program. I specialize in building (and occasionally 
         designing) exceptional digital experiences. Currently, I&apos;m focused on 
-        building accessible, human-centered web applications.
+        starting my own business where I blend embedded systems and web technology together.
       </motion.p>
       
       <motion.div 
