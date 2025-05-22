@@ -158,8 +158,12 @@ export default function About() {
           animate={isInView ? "visible" : "hidden"}
         >
           <div className="relative group">
-            <div className="w-full aspect-square bg-accent-purple flex items-center justify-center rounded overflow-hidden">
-              <span className="text-white text-xl">Profile Image</span>
+            <div className="w-full aspect-square bg-accent-purple rounded overflow-hidden">
+              <img 
+                src="/images/profile.jpg" 
+                alt="Profile photo" 
+                className="w-full h-full object-cover"
+              />
             </div>
             
             {/* Decorative border */}

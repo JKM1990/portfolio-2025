@@ -26,10 +26,8 @@ const navLinks: NavLink[] = [
 ];
 
 const socialLinks: SocialLink[] = [
-  { platform: 'GitHub', url: '#', icon: 'fa-github' },
-  { platform: 'LinkedIn', url: '#', icon: 'fa-linkedin-in' },
-  { platform: 'Twitter', url: '#', icon: 'fa-twitter' },
-  { platform: 'Email', url: '#', icon: 'fa-envelope' },
+  { platform: 'GitHub', url: 'https://github.com/JKM1990', icon: 'fa-github' },
+  { platform: 'LinkedIn', url: 'https://www.linkedin.com/in/jeff-manser/', icon: 'fa-linkedin-in' }
 ];
 
 export default function Sidebar() {
@@ -79,9 +77,9 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile menu button */}
+      {/* Mobile menu button - now positioned on the left */}
       <button 
-        className="lg:hidden fixed top-4 right-4 z-50 bg-bg-medium text-text-light p-2 rounded"
+        className="lg:hidden fixed top-4 left-4 z-50 bg-bg-medium text-text-light p-2 rounded"
         onClick={toggleMobileMenu}
         aria-label="Toggle menu"
       >
@@ -122,8 +120,8 @@ export default function Sidebar() {
                 whileTap={{ scale: 0.98 }}
               >
                 <div className={`
-                  absolute left-0 w-1 h-full bg-accent-purple transition-all duration-300 transform origin-left
-                  ${activeSection === link.path ? 'scale-100' : 'scale-0'}
+                  absolute left-0 w-1 h-full transition-all duration-300
+                  ${activeSection === link.path ? 'bg-accent-purple shadow-[0_0_10px_2px_rgba(110,60,231,0.6)]' : 'bg-transparent'}
                 `} />
                 <i className={`fas ${link.icon} text-accent-purple mr-3`}></i>
                 {link.label}

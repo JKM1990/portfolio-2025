@@ -61,23 +61,22 @@ export default function Projects() {
         console.error('Error loading projects:', err);
         setError('Failed to load projects. Please try again later.');
         
-        // Fallback to sample data if API fails
+        // Fallback to your actual project data if API fails
         setFeaturedProjects([
           {
-            title: 'E-Commerce Platform',
-            description: 'A full-featured e-commerce platform with product management, cart functionality, user authentication, and payment processing. This project was built with performance and scalability in mind.',
+            title: 'Double-Headed Drilling Machine Control System',
+            description: 'Designed and implemented a complete control system for a double-headed drilling machine during a 5-week work experience at Cripps and Sons, using Arduino Mega 2560 and Nextion touch screen interface.',
             featured: true,
-            imageSrc: '/images/project-1.jpg',
+            imageSrc: '/images/drilling-machine.jpg',
             technologies: [
-              { name: 'React' },
-              { name: 'Node.js' },
-              { name: 'MongoDB' },
-              { name: 'Express' },
-              { name: 'Redux' },
-              { name: 'Stripe API' }
+              { name: 'Arduino' },
+              { name: 'C++' },
+              { name: 'Nextion HMI' },
+              { name: 'Electronics' },
+              { name: 'Embedded Systems' }
             ],
-            githubLink: '#',
-            liveLink: '#'
+            githubLink: undefined,
+            liveLink: undefined
           },
           {
             title: 'Content Management System',
@@ -146,14 +145,7 @@ export default function Projects() {
     fetchProjects();
   }, []);
   
-  const titleVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.6 }
-    }
-  };
+  // Title animations are now defined inline in the JSX
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -186,9 +178,9 @@ export default function Projects() {
     >
       <motion.h3 
         className="section-title"
-        variants={titleVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+        initial={{ opacity: 0, x: -50 }}
+        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+        transition={{ duration: 0.6 }}
       >
         My Projects
       </motion.h3>

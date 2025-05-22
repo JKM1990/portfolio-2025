@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Install netcat for MongoDB connection check
+# Install netcat for PostgreSQL connection check
 RUN apk add --no-cache netcat-openbsd
 
 COPY package*.json ./
@@ -10,6 +10,9 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
+# Generate Prisma client during build
+RUN npx prisma generate
 
 # Make entrypoint script executable
 RUN chmod +x docker-entrypoint.sh

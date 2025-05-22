@@ -61,9 +61,9 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
               className="px-2 py-1 rounded relative group"
             >
               <span className="relative z-10">{tech.name}</span>
-              <span className="absolute inset-0 bg-accent-purple bg-opacity-10 rounded 
-                transform scale-x-0 origin-left transition-transform duration-300 
-                group-hover:scale-x-100"></span>
+              <span className="absolute inset-0 bg-transparent rounded 
+                transition-all duration-300
+                group-hover:bg-accent-purple group-hover:bg-opacity-10 group-hover:shadow-[0_0_8px_1px_rgba(110,60,231,0.3)]"></span>
             </span>
           ))}
         </div>

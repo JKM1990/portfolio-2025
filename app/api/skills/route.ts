@@ -1,15 +1,28 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/db/connection';
-import Skill from '@/lib/models/Skill';
+import prisma from '@/lib/db/prisma';
 import { Skill as SkillType } from '@/types';
+
+// Define Skill type based on the Prisma schema
+type Skill = {
+  id: string;
+  name: string;
+  icon: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export async function GET(): Promise<NextResponse> {
   try {
-    await connectDB();
+    const skills = await prisma.skill.findMany();
     
-    const skills: SkillType[] = await Skill.find({});
+    // Transform to match the expected format
+    const formattedSkills: SkillType[] = skills.map((skill: Skill) => ({
+      id: skill.id,
+      name: skill.name,
+      icon: skill.icon
+    }));
     
-    return NextResponse.json({ success: true, data: skills });
+    return NextResponse.json({ success: true, data: formattedSkills });
   } catch (error) {
     console.error('Error fetching skills:', error);
     return NextResponse.json(

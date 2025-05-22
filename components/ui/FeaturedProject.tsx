@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Project } from '@/types';
+import { useState, useEffect } from 'react';
 
 interface FeaturedProjectProps {
   project: Project;
@@ -10,7 +11,21 @@ interface FeaturedProjectProps {
 }
 
 export default function FeaturedProject({ project, isEven }: FeaturedProjectProps) {
-  // Removed debug logging for production
+  // State to track which image to show
+  const [currentImage, setCurrentImage] = useState(0);
+  
+  // Effect to cycle through images every 10 seconds
+  useEffect(() => {
+    // Only set up the interval if there's a second image
+    if (project.imageSrc2) {
+      const interval = setInterval(() => {
+        setCurrentImage(current => (current === 0 ? 1 : 0));
+      }, 10000);
+      
+      // Clean up interval on component unmount
+      return () => clearInterval(interval);
+    }
+  }, [project.imageSrc2]);
   
   const variants = {
     hidden: { opacity: 0, y: 50 },
@@ -29,8 +44,37 @@ export default function FeaturedProject({ project, isEven }: FeaturedProjectProp
       <div className="grid grid-cols-12 gap-5">
         {/* Project Image - Conditionally ordered based on isEven */}
         <div className={`col-span-12 md:col-span-6 rounded overflow-hidden group ${isEven ? 'md:order-2' : 'md:order-1'}`}>
-          <div className="relative h-80 bg-accent-purple rounded flex items-center justify-center">
-            <span className="text-white text-xl">Project Screenshot</span>
+          <div className="relative h-80 bg-accent-purple rounded overflow-hidden">
+            {project.imageSrc ? (
+              <>
+                <img 
+                  src={currentImage === 0 ? project.imageSrc : project.imageSrc2 || project.imageSrc} 
+                  alt={`${project.title} screenshot`}
+                  className="w-full h-full object-cover transition-opacity duration-1000"
+                  style={{ opacity: 1 }}
+                />
+                
+                {/* Image indicator dots - only show if there's a second image */}
+                {project.imageSrc2 && (
+                  <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-20">
+                    <button 
+                      className={`w-2 h-2 rounded-full ${currentImage === 0 ? 'bg-white' : 'bg-gray-400'}`}
+                      onClick={() => setCurrentImage(0)}
+                      aria-label="View first image"
+                    />
+                    <button 
+                      className={`w-2 h-2 rounded-full ${currentImage === 1 ? 'bg-white' : 'bg-gray-400'}`}
+                      onClick={() => setCurrentImage(1)}
+                      aria-label="View second image"
+                    />
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="flex items-center justify-center h-full">
+                <span className="text-white text-xl">Project Screenshot</span>
+              </div>
+            )}
             
             {/* Overlay on hover */}
             <div className="absolute inset-0 bg-accent-purple bg-opacity-50 opacity-0 
@@ -66,6 +110,12 @@ export default function FeaturedProject({ project, isEven }: FeaturedProjectProp
           <div className="bg-bg-medium p-6 rounded mb-5 shadow-lg border border-accent-purple border-opacity-10
             hover:border-opacity-30 transition-all duration-300">
             <p className="text-text-dim">{project.description}</p>
+            {project.details && (
+              <div className="mt-4 text-text-dim">
+                <p><strong>Problem:</strong> {project.details.problem}</p>
+                <p className="mt-2"><strong>Solution:</strong> {project.details.solution}</p>
+              </div>
+            )}
           </div>
           
           <div className="flex flex-wrap gap-4 mb-5 text-sm text-text-dim">
@@ -75,28 +125,36 @@ export default function FeaturedProject({ project, isEven }: FeaturedProjectProp
                 className="px-2 py-1 rounded relative group"
               >
                 <span className="relative z-10">{tech.name}</span>
-                <span className="absolute inset-0 bg-accent-purple bg-opacity-10 rounded 
-                  transform scale-x-0 origin-left transition-transform duration-300 
-                  group-hover:scale-x-100"></span>
+                <span className="absolute inset-0 bg-transparent rounded 
+                  transition-all duration-300
+                  group-hover:bg-accent-purple group-hover:bg-opacity-10 group-hover:shadow-[0_0_8px_1px_rgba(110,60,231,0.3)]"></span>
               </span>
             ))}
           </div>
           
           <div className="flex gap-4 text-text-light">
-            <Link 
-              href={project.githubLink || '#'} 
-              className="text-2xl hover:text-accent-purple hover:-translate-y-1 transition-all duration-300"
-              aria-label="GitHub Repository"
-            >
-              <i className="fab fa-github"></i>
-            </Link>
-            <Link 
-              href={project.liveLink || '#'} 
-              className="text-2xl hover:text-accent-purple hover:-translate-y-1 transition-all duration-300"
-              aria-label="Live Site"
-            >
-              <i className="fas fa-external-link-alt"></i>
-            </Link>
+            {project.githubLink && (
+              <Link 
+                href={project.githubLink} 
+                className="text-2xl hover:text-accent-purple hover:-translate-y-1 transition-all duration-300"
+                aria-label="GitHub Repository"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-github"></i>
+              </Link>
+            )}
+            {project.liveLink && (
+              <Link 
+                href={project.liveLink} 
+                className="text-2xl hover:text-accent-purple hover:-translate-y-1 transition-all duration-300"
+                aria-label="Live Site"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fas fa-external-link-alt"></i>
+              </Link>
+            )}
           </div>
         </div>
       </div>

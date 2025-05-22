@@ -14,6 +14,7 @@ export interface Skill {
     description: string;
     featured: boolean;
     imageSrc: string;
+    imageSrc2?: string; // Optional second image
     technologies: Technology[];
     githubLink?: string;
     liveLink?: string;

@@ -100,10 +100,20 @@ export default function MainContent({ children }: MainContentProps) {
         
         // Special handling for projects section
         if (currentSection && currentSection.id === 'work' && otherProjects && projectsEndMarker) {
-          // If scrolling up, allow normal behavior
+          // If scrolling up and near the top of the projects section
           if (delta < 0 && currentSectionIndex > 0) {
-            e.preventDefault();
-            scrollToSection(currentSectionIndex - 1);
+            // Calculate if we're near the top of the section
+            const scrollPosition = window.scrollY;
+            const headerHeight = 100; // Approximate header height
+            
+            // If we're at the top of the projects section, scroll to previous section
+            if (scrollPosition <= (currentSection.offsetTop + headerHeight)) {
+              e.preventDefault();
+              scrollToSection(currentSectionIndex - 1);
+              return;
+            }
+            
+            // Otherwise, allow normal scrolling within the section
             return;
           }
           
@@ -172,7 +182,7 @@ export default function MainContent({ children }: MainContentProps) {
       
       {/* Floating shapes */}
       <div className="absolute top-[15%] right-[10%] w-72 h-72 rounded-full bg-gradient-radial from-accent-purple to-transparent opacity-5 animate-float z-0"></div>
-      <div className="absolute bottom-[10%] left-[5%] w-48 h-48 border-2 border-accent-purple opacity-5 rotate-45 animate-rotate z-0"></div>
+      <div className="absolute bottom-[10%] left-[5%] w-48 h-48 border-2 border-accent-purple opacity-15 rotate-45 animate-rotate z-0"></div>
       
       {/* Scroll indicators (optional) */}
       <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-50 hidden lg:flex flex-col gap-3">
