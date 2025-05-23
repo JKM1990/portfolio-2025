@@ -198,7 +198,7 @@ export default function Projects() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
       >
-        Featured Projects
+        Recent Projects
       </motion.h3>
       
       {/* Featured Projects */}

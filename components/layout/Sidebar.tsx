@@ -79,7 +79,7 @@ export default function Sidebar() {
     <>
       {/* Mobile menu button - now positioned on the left */}
       <button 
-        className="lg:hidden fixed top-4 left-4 z-50 bg-bg-medium text-text-light p-2 rounded"
+        className="lg:hidden fixed top-4 right-4 z-50 bg-bg-medium text-text-light p-2 rounded"
         onClick={toggleMobileMenu}
         aria-label="Toggle menu"
       >
@@ -100,7 +100,7 @@ export default function Sidebar() {
         <div className="flex flex-col">
           {/* Logo */}
           <div className="text-2xl font-bold tracking-wide mb-12 pb-2 border-b border-accent-purple inline-block">
-            J.M. PORTFOLIO
+            MY PORTFOLIO
           </div>
 
           {/* Navigation */}
