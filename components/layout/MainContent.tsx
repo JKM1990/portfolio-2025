@@ -134,11 +134,28 @@ export default function MainContent({ children }: MainContentProps) {
         } 
         // Regular section navigation for other sections
         else if (currentSection) {
-          const targetIndex = currentSectionIndex + delta;
+          const scrollPosition = window.scrollY;
+          const windowHeight = window.innerHeight;
+          const sectionTop = currentSection.offsetTop;
+          const sectionHeight = currentSection.offsetHeight;
+          const sectionBottom = sectionTop + sectionHeight;
           
-          if (targetIndex >= 0 && targetIndex < sections.length) {
-            e.preventDefault();
-            scrollToSection(targetIndex);
+          // For scrolling down, ensure we've seen most of the current section
+          if (delta > 0) {
+            const viewportBottom = scrollPosition + windowHeight;
+            // Only scroll to next section if we've seen at least 90% of current section
+            if (viewportBottom >= sectionBottom - 100 && currentSectionIndex < sections.length - 1) {
+              e.preventDefault();
+              scrollToSection(currentSectionIndex + 1);
+            }
+          }
+          // For scrolling up
+          else if (delta < 0) {
+            // Only scroll to previous section if we're near the top of current section
+            if (scrollPosition <= sectionTop + 100 && currentSectionIndex > 0) {
+              e.preventDefault();
+              scrollToSection(currentSectionIndex - 1);
+            }
           }
         }
       }
