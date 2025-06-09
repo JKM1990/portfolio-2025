@@ -110,7 +110,7 @@ export default function About() {
           animate={isInView ? "visible" : "hidden"}
         >
           <motion.p className="text-text-dim mb-5" variants={itemVariants}>
-            Hey! I've been on and around technology since the very first time my Father brought home a Windows-DOS pc. Using computers 
+            Hey! I&apos;ve been on and around technology since the very first time my Father brought home a Windows-DOS pc. Using computers 
             to make my life easier has always been a passion of mine and I would like to share those abilities with those in need. We live in 
             an everchanging technological world which favors adaptable and forward-thinking individuals.
           </motion.p>
