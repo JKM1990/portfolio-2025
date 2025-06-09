@@ -17,7 +17,7 @@ const projectsData = [
       { name: 'Blade Templates' }
     ],
     githubLink: 'https://github.com/JKM1990/lara-cards',
-    liveLink: '#',
+    liveLink: undefined,
     details: {
       problem: 'Consumers struggle to choose the optimal credit card from hundreds of options, often missing out on significant annual rewards by not matching their spending patterns to the best reward structures.',
       solution: 'Built an intelligent calculator that analyzes user spending across categories (groceries, gas, bills, other) and recommends the highest-earning credit card after factoring in annual fees, with automated email notifications for convenience.',
@@ -89,6 +89,7 @@ const projectsData = [
 // Skills based on my actual projects
 const skillsData = [
   { name: 'JavaScript (ES6+)', icon: 'fa-js' },
+  { name: 'PlatformIO', icon: 'fa-code' },
   { name: 'TypeScript', icon: 'fa-code' },
   { name: 'React', icon: 'fa-react' },
   { name: 'Next.js', icon: 'fa-react' },
@@ -98,7 +99,7 @@ const skillsData = [
   { name: 'TailwindCSS', icon: 'fa-css3' },
   { name: 'MySQL', icon: 'fa-database' },
   { name: 'MongoDB', icon: 'fa-database' },
-  { name: 'Chart.js', icon: 'fa-chart-bar' },
+  { name: 'Claude-code', icon: 'fa-chart-bar' },
   { name: 'C++', icon: 'fa-code' },
   { name: 'Arduino', icon: 'fa-microchip' },
   { name: 'Embedded Systems', icon: 'fa-microchip' },

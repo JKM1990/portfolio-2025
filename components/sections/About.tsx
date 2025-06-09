@@ -110,16 +110,16 @@ export default function About() {
           animate={isInView ? "visible" : "hidden"}
         >
           <motion.p className="text-text-dim mb-5" variants={itemVariants}>
-            Hello! My name is Jeff, and I enjoy creating things that live on the internet. 
-            My interest in web development started back in 2018 when I decided to try editing 
-            custom Tumblr themes — turns out hacking together a custom reblog button taught me 
-            a lot about HTML & CSS!
+            Hey! I've been on and around technology since the very first time my Father brought home a Windows-DOS pc. Using computers 
+            to make my life easier has always been a passion of mine and I would like to share those abilities with those in need. We live in 
+            an everchanging technological world which favors adaptable and forward-thinking individuals.
           </motion.p>
           
           <motion.p className="text-text-dim mb-5" variants={itemVariants}>
-            Fast forward to today, and I&apos;ve just completed my education at the Nova Scotia 
-            Community College in their Web Programming program. My main focus these days is 
-            building accessible, inclusive products and digital experiences at my various projects.
+            Fast forward to June 2nd, where I&apos;ve just completed my education at the Nova Scotia 
+            Community College in their Web Programming program as an Honours student. My main focus these days is 
+            building digital experiences, blending web tech with integrated hardware and AI tools. I am truly fascinated by the automation industry 
+            and strive to provide local businesses with the modernization they deserve.
           </motion.p>
           
           <motion.p className="text-text-dim mb-8" variants={itemVariants}>
@@ -148,6 +148,17 @@ export default function About() {
                 {error}
               </p>
             )}
+          </motion.div>
+          
+          <motion.div variants={itemVariants} className="mt-8">
+            <a 
+              href="/resume.pdf" 
+              download
+              className="btn inline-flex items-center gap-2"
+            >
+              <i className="fas fa-download"></i>
+              Download Resume
+            </a>
           </motion.div>
         </motion.div>
         
