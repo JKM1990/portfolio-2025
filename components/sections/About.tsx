@@ -153,8 +153,17 @@ export default function About() {
           <motion.div variants={itemVariants} className="mt-8">
             <a 
               href="/JeffKManser_Resume.pdf" 
-              download
+              download="JeffKManser_Resume.pdf"
               className="btn inline-flex items-center gap-2"
+              onClick={(e) => {
+                e.preventDefault();
+                const link = document.createElement('a');
+                link.href = '/JeffKManser_Resume.pdf';
+                link.download = 'JeffKManser_Resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
             >
               <i className="fas fa-download"></i>
               Download Resume
