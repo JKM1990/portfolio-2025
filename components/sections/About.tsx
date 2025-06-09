@@ -152,7 +152,7 @@ export default function About() {
           
           <motion.div variants={itemVariants} className="mt-8">
             <a 
-              href="/JeffkManser_Resume.pdf" 
+              href="/JeffKManser_Resume.pdf" 
               download
               className="btn inline-flex items-center gap-2"
             >
